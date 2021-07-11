@@ -1,0 +1,38 @@
+---
+layout: post
+title: "MSF启动时的动态效果"
+---
+
+在玩metasploit，执行msfconsole在启动过程中，发现它的等待字符串很有爱。
+
+虽然是字符界面，不过也能做到一些视觉效果，于是去找了下源码。 
+
+这部分的源码是(#号部分是我自己理解后的注释)： 
+
+```ruby
+#!/usr/bin/env ruby
+
+<!--more-->
+base_line = "[*] Starting the Metasploit Framework console..."
+cycle = 0
+loop do
+	%q{/-\|}.each_char do |c|
+		status = "#{base_line}#{c}\r"
+		cycle += 1
+		#格式化base_line，让off可以从0到48，再加上loop，这个0到48就可以一直循环
+		off = cycle % base_line.length 
+		#检测base_line这串字符串，如果是小写就变大写，如果是大写就变回小写
+		case status[off, 1] 
+			when /[a-z]/
+				status[off, 1] = status[off, 1].upcase
+			when /[A-Z]/
+				status[off, 1] = status[off, 1].downcase
+		end
+		$stderr.print status
+		::IO.select(nil, nil, nil, 0.10)
+	end
+end
+```
+
+下面就是这段代码的动态效果:
+![msf动态效果]({{ site.url }}/assets/msf.gif)

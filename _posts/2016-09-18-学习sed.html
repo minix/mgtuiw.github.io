@@ -1,0 +1,99 @@
+---
+layout: post
+title: "学习sed"
+---
+
+<p>一直都是断断续续的学习Sed和Awk,在这里作个记号先。</p>
+
+<p>现在先来学习Sed。</p>
+
+<ol>
+	<li><strong>sed &#39;s/abc/def/5,10&#39; file</strong> 和 <strong>sed -i &#39;5,10s/abc/def/g&#39; file</strong>的区别
+
+		<p><em>sed &#39;s/abc/def/5,10&#39; file</em> #将第5行到第10行的abc改成def</p>
+
+		<p><em>sed &#39;5,10s/abc/def/g&#39; file</em> #将一行的第5字段到第10字段的abc改为def</p></li>
+	<li><strong>sed a 命令( append ), 在指定行或匹配的字符串下面插入新行</strong>
+
+		<p><em>sed &quot;1 a test abc&quot; file</em> #在第一行下面插入test abc 一行</p>
+
+		<p><em>sed &quot;$ a test abc&quot; file</em> #在最后一行插入test abc一行</p>
+
+		<p><em>sed &quot;/my/a test&quot; file</em> #在匹配my一行的下一行插入test一行</p></li>
+	<li><strong>sed i 命令（ insert ), 在指定行或匹配的字符串前插入新行</strong>
+<!--more-->
+
+		<p>与sed a命令相反，它是在前面插入一行</p>
+
+		<p><em>sed &quot;1i test abc&quot; file</em> #在第一行上面插入新行</p>
+
+		<p><em>sed &quot;/my/i test abc&quot; file</em> #在匹配my的一行上面插入一行</p></li>
+	<li><strong>sed c 命令( replace ), 替换指定的行或匹配的字符串</strong>
+
+		<p><em>sed &quot;2 c test&quot; file</em> #将第二行全部内容替换为test</p>
+
+		<p><em>sed &quot;/abc/c test&quot; file</em> #将有abc的一行替换为test</p></li>
+	<li><strong>sed d 命令( delete ), 删除指定的行或匹配字符的行删除</strong>
+
+		<p><em>sed &quot;2d&quot; file</em> #将第二行删除</p>
+
+		<p><em>sed &quot;/test/d&quot; file</em> #将匹配test的一行删除</p>
+
+		<p><em>sed &quot;2,5d&quot; file</em> #将第2行到第5行删除</p></li>
+
+	<li><strong>sed p 命令( print ), 打印匹配行，在不使用-n选项时被匹配到的行会显示两遍，因为sed处理时默认会把处理的信息输出</strong>
+		<p><em>sed &quot;n;p&quot; file</em> #显示偶数行</p> </li>
+
+	<li><strong>sed r命令( read ), 将指定文件的内容添加到符合条件的文件中</strong>
+		<p><em>sed &quot; 2r newfile &quot; oldfile </em> #将oldfile的两行添加到newfile文件中</p></li>
+	
+	<li><strong>sed w命令( write ), 将地址指定范围内的行另存到指定的文件中</strong>
+		<p><em>sed &quot; 1,2w newfile &quot; oldfile </em> #将oldfile文件的第一行和第二行另存到newfile文件中</p></li>
+
+	<li><strong>更有趣的是，sed有一个命令打包的东西，挺有意思的。</strong>
+
+		<p>它们可以用分号分开，可以用大括号括起来作为嵌套命令</p>
+
+		<p><em>sed &quot;3,6/test/d&quot; file</em> #将3到6中含有test字符的行删除</p>
+
+		<p><em>sed &quot;3,6/test/{/field/d}&quot; file</em> #将3到6行中含有test和field的行删除</p>
+
+		<p><em>sed &quot;1,$/test/d; s/^ $//g&quot; file</em> #将整个文件中含有test的行删除和将空行删除</p>
+
+		<p>在这里将多个命令使用大括号或分号来分开和执行了</p></li>
+	<li><strong>保留空间</strong>
+
+		<p>g： 将保留空间中的内容拷贝到匹配空间中，原来匹配空间里的内容清除</p>
+
+		<p>G： 将保留空间中的内容追加到匹配空间后面</p>
+
+		<p>h： 将匹配空间中的内容拷贝到保留空间中，原来的保留空间里的内容被清除</p>
+
+		<p>H： 将匹配空间中的内容追加到保留空间后面</p>
+
+		<p>x： 交换匹配空间和保留空间的内容</p>
+
+		<p>n:  读取匹配到的行的下一行至模式空间中</p>
+
+		<p>N:  追加读取匹配到的行的下一行至模式空间中</p>
+
+		<p>d:  删除模式空间中的行</p>
+
+		<p>D:  删除多行模式空间中的所有行</p>
+
+		<p><em>sed &#39;1!G;h;$!d&#39; file</em> #倒序一个文件内容</p>
+
+		<p>下面是这行命令的解析</p>
+
+		<blockquote>
+		<p>1!G —— 只有第一行不执行G命令，将hold space中的内容append回到pattern space</p>
+
+		<p>h —— 第一行都执行h命令，将pattern space中的内容拷贝到hold space中</p>
+
+		<p>$!d —— 除了最后一行不执行d命令，其它行都执行d命令，删除当前行</p>
+		</blockquote></li>
+</ol>
+
+<p>来自<a href="http://coolshell.cn/articles/9104.html">http://coolshell.cn/articles/9104.html</a></p>
+
+

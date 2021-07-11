@@ -1,0 +1,47 @@
+---
+layout: post
+title: "brew安装旧版本软件"
+---
+
+如果你想使用brew安装旧版本的软件，可通过下面的方式来：
+
+ 1. `$ brew versions ruby`
+
+	会显示以下信息：
+
+ Warning: brew-versions is unsupported and will be removed soon.
+ You should use the homebrew-versions tap instead:
+ &nbsp; https://github.com/Homebrew/homebrew-versions
+ \<!--more--\>
+
+2.1.2&nbsp;&nbsp;&nbsp; git checkout 46be5d9 /usr/local/Library/Formula/ruby.rb
+2.1.1&nbsp;&nbsp;&nbsp; git checkout 10a2c28 /usr/local/Library/Formula/ruby.rb
+2.1.0&nbsp;&nbsp;&nbsp; git checkout f6051bc /usr/local/Library/Formula/ruby.rb
+2.0.0-p353 git checkout ee32d72 /usr/local/Library/Formula/ruby.rb
+2.0.0-p247 git checkout 33cb28e /usr/local/Library/Formula/ruby.rb
+2.0.0-p195 git checkout dad5917 /usr/local/Library/Formula/ruby.rb
+2.0.0-p0 git checkout 3085c40 /usr/local/Library/Formula/ruby.rb
+1.9.3-p392 git checkout 6c26d0a /usr/local/Library/Formula/ruby.rb
+1.9.3-p385 git checkout e5b9678 /usr/local/Library/Formula/ruby.rb
+1.9.3-p374 git checkout b0f8027 /usr/local/Library/Formula/ruby.rb
+1.9.3-p362 git checkout 62b8c63 /usr/local/Library/Formula/ruby.rb
+1.9.3-p327 git checkout 1734e5b /usr/local/Library/Formula/ruby.rb
+1.9.3-p286 git checkout 1b726f7 /usr/local/Library/Formula/ruby.rb
+1.9.3-p194 git checkout 9c6ea53 /usr/local/Library/Formula/ruby.rb
+1.9.3-p125 git checkout bf3dfa9 /usr/local/Library/Formula/ruby.rb
+1.9.3-p0 git checkout 7338ed6 /usr/local/Library/Formula/ruby.rb
+1.9.2-p290 git checkout b6aa338 /usr/local/Library/Formula/ruby.rb
+1.9.2-p180 git checkout 83ed494 /usr/local/Library/Formula/ruby.rb
+1.9.2-p136 git checkout f282737 /usr/local/Library/Formula/ruby.rb
+1.9.2-p0 git checkout 773915d /usr/local/Library/Formula/ruby.rb
+1.9.1-p378 git checkout d0efd9e /usr/local/Library/Formula/ruby.rb
+1.9.1-p243 git checkout d0ed812 /usr/local/Library/Formula/ruby.rb
+* 
+2.  `$git checkout 6c26d0a /usr/local/Library/Formula/ruby.rb`
+
+	*6c26d0a*是1.9.3-p392版本
+
+3.  `$brew install ruby`
+
+	这样再安装的版本就是1.9.3了
+
